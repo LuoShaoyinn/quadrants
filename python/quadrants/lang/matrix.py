@@ -695,7 +695,7 @@ class Matrix(QuadrantsOperations):
         return self.entries
 
     @quadrants_scope
-    def __ti_repr__(self):
+    def __qd_repr__(self):
         yield "["
         for i in range(self.n):
             if i:

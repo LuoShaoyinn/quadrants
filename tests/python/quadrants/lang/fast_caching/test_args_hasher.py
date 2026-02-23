@@ -154,7 +154,7 @@ def test_args_hasher_ndarray_matrix() -> None:
                             assert hash in seen
 
 
-def _ti_init_same_arch() -> None:
+def _qd_init_same_arch() -> None:
     assert qd.cfg is not None
     qd.init(arch=getattr(qd, qd.cfg.arch.name))
 
@@ -168,7 +168,7 @@ def test_args_hasher_field() -> None:
     """
     for dtype in [qd.i32, qd.i64, qd.f32, qd.f64]:
         for shape in [(2,), (5,), (2, 5)]:
-            _ti_init_same_arch()
+            _qd_init_same_arch()
             arg = qd.field(dtype, shape)
             hash = args_hasher.hash_args(False, [arg], [None])
             assert hash is None
@@ -180,7 +180,7 @@ def test_args_hasher_field_vector() -> None:
     for dtype in [qd.i32, qd.i64, qd.f32, qd.f64]:
         for n in [2, 3]:
             for shape in [(2,), (5,), (2, 5)]:
-                _ti_init_same_arch()
+                _qd_init_same_arch()
                 arg = qd.Vector.field(n, dtype, shape)
                 hash = args_hasher.hash_args(False, [arg], [None])
                 assert hash is None
@@ -193,7 +193,7 @@ def test_args_hasher_field_matrix() -> None:
         for m in [2, 3]:
             for n in [2, 3]:
                 for shape in [(2,), (5,), (2, 5)]:
-                    _ti_init_same_arch()
+                    _qd_init_same_arch()
                     arg = qd.Matrix.field(m, n, dtype, shape)
                     hash = args_hasher.hash_args(False, [arg], [None])
                     assert hash is None
