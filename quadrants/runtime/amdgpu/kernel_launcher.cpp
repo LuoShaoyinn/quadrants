@@ -83,8 +83,6 @@ void KernelLauncher::launch_llvm_kernel(Handle handle,
   char *host_result_buffer = (char *)ctx.get_context().result_buffer;
   if (ctx.result_buffer_size > 0) {
     // Malloc_Async and Free_Async are available after ROCm 5.4
-    AMDGPUDriver::get_instance().malloc((void **)&device_result_buffer,
-                                        ctx.result_buffer_size);
     ctx.get_context().result_buffer = (uint64 *)device_result_buffer;
   }
   char *device_arg_buffer = nullptr;
@@ -117,8 +115,8 @@ void KernelLauncher::launch_llvm_kernel(Handle handle,
   if (ctx.result_buffer_size > 0) {
     AMDGPUDriver::get_instance().memcpy_device_to_host(
         host_result_buffer, device_result_buffer, ctx.result_buffer_size);
-    AMDGPUDriver::get_instance().mem_free(device_result_buffer);
   }
+  AMDGPUDriver::get_instance().mem_free(device_result_buffer);
   if (transfers.size()) {
     for (auto itr = transfers.begin(); itr != transfers.end(); itr++) {
       auto &idx = itr->first;
